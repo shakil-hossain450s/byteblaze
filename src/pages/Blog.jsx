@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link, Outlet, useLoaderData } from "react-router-dom";
+import { IoIosArrowDropleftCircle } from "react-icons/io";
+import { Link, Outlet, useLoaderData, useNavigate } from "react-router-dom";
 
 const Blog = () => {
     const [tabIndex, setTabIndex] = useState(0);
@@ -7,9 +8,13 @@ const Blog = () => {
     const blogData = useLoaderData();
     const { id, title, reading_time_minutes, cover_image, description, tags, published_at, comments_count, public_reactions_count } = blogData;
 
+    const navigate = useNavigate();
+    const handleGoBack = () => {
+        navigate(-1)
+    }
     return (
         <div className="max-w-3xl px-6 py-16 mx-auto space-y-12">
-            <article className="space-y-8">
+            <article>
                 <div className="space-y-6">
                     <h1 className="text-4xl font-bold md:tracking-tight md:text-5xl">{title}</h1>
                     <div className="flex flex-col items-start justify-between w-full md:flex-row md:items-center">
@@ -41,6 +46,9 @@ const Blog = () => {
                         </Link>
                     </div>
                 </div>
+                <button onClick={handleGoBack} className="text-3xl my-2" >
+                    <IoIosArrowDropleftCircle />
+                </button>
                 <Outlet />
             </article>
         </div>
