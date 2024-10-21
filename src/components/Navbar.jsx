@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
-    const [theme, setTheme] = useState('light');
+    const localTheme = localStorage.getItem('theme');
+    const [theme, setTheme] = useState(localTheme);
+    useEffect(() => {
+        localStorage.setItem("theme", theme);
+        document.querySelector('html').setAttribute('data-theme', theme);
+    }, [theme])
+
     const handleToggle = (e) => {
         if (e.target.checked) {
             setTheme("dark")
@@ -10,12 +17,7 @@ const Navbar = () => {
         }
     }
 
-    useEffect(() => {
-        localStorage.setItem("theme", theme);
 
-        const localTheme = localStorage.getItem('theme');
-        document.querySelector('html').setAttribute('data-theme', localTheme)
-    }, [theme])
 
     return (
         <div className="navbar bg-base-100 shadow-lg px-4 fixed z-10">
@@ -26,15 +28,12 @@ const Navbar = () => {
             </div>
             <div className="flex-none">
                 <ul className="menu menu-horizontal px-1 font-bold">
-                    <li>
-                        <a href="">Home</a>
-                    </li>
-                    <li className="text-primary">
-                        <a href="">Blogs</a>
-                    </li>
-                    <li>
-                        <a href="">Bookmarks</a>
-                    </li>
+                    <Link to="/">Home</Link>
+                    <Link
+                        className="text-primary" to="/blogs">
+                        Blogs
+                    </Link>
+                    <Link to="/bookmarks">Bookmarks</Link>
                 </ul>
                 <label className="grid cursor-pointer place-items-center">
                     <input
