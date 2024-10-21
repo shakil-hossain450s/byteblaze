@@ -1,4 +1,22 @@
+import { useEffect, useState } from "react";
+
 const Navbar = () => {
+    const [theme, setTheme] = useState('light');
+    const handleToggle = (e) => {
+        if (e.target.checked) {
+            setTheme("dark")
+        } else {
+            setTheme("light")
+        }
+    }
+
+    useEffect(() => {
+        localStorage.setItem("theme", theme);
+
+        const localTheme = localStorage.getItem('theme');
+        document.querySelector('html').setAttribute('data-theme', localTheme)
+    }, [theme])
+
     return (
         <div className="navbar bg-base-100 shadow-lg px-4 fixed z-10">
             <div className="flex-1">
@@ -20,8 +38,8 @@ const Navbar = () => {
                 </ul>
                 <label className="grid cursor-pointer place-items-center">
                     <input
+                        onChange={handleToggle}
                         type="checkbox"
-                        value="synthwave"
                         className="toggle theme-controller bg-base-content col-span-2 col-start-1 row-start-1" />
                     <svg
                         className="stroke-base-100 fill-base-100 col-start-1 row-start-1"
