@@ -1,16 +1,25 @@
 import { useState } from "react";
-import { Link, Outlet, useLoaderData } from "react-router-dom";
+import { Link, Outlet, useLoaderData, useNavigation } from "react-router-dom";
+import Loader from "../components/Loader";
+import { MdBookmarkAdd } from "react-icons/md";
+import { saveBlog } from "../utils";
 
 const Blog = () => {
+    const navigation = useNavigation();
     const [tabIndex, setTabIndex] = useState(0);
 
     const blogData = useLoaderData();
     const { title, reading_time_minutes, published_at, comments_count, public_reactions_count } = blogData;
 
+
+    const handleBookMark = (blog) => {
+        saveBlog(blog);
+    }
+
     return (
         <div className="max-w-3xl px-6 py-16 mx-auto space-y-12">
             <article>
-                <div className="space-y-6 mb-5">
+                <div className="space-y-6 mb-3">
                     <h1 className="text-4xl font-bold md:tracking-tight md:text-5xl">{title}</h1>
                     <div className="flex flex-col items-start justify-between w-full md:flex-row md:items-center">
                         <div className="flex items-center md:space-x-2">
@@ -39,9 +48,21 @@ const Blog = () => {
                             </svg>
                             <span>Author</span>
                         </Link>
+
+                        {/* bookmark button */}
+                        <div 
+                        onClick={() => handleBookMark(blogData)}
+                        
+                        className="btn bg-primary p-3 ml-5 rounded-full bg-opacity-20  transition duration-300 hover:scale-105 overflow-hidden hover:bg-primary hover:bg-opacity-30 cursor-pointer">
+                            <MdBookmarkAdd  
+                            size={20}
+                            className="text-secondary"></MdBookmarkAdd>
+                        </div>
                     </div>
                 </div>
-                <Outlet />
+                {
+                    navigation.state==="loading" ? <Loader/>:<Outlet />
+                }
             </article>
         </div>
     );

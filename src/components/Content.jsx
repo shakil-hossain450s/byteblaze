@@ -5,10 +5,9 @@ import rehypeRaw from "rehype-raw";
 
 const Content = () => {
     const blog = useLoaderData();
-    console.log(blog)
     const { body_html, cover_image, title, tags } = blog;
     return (
-        <div rel="noopener noreferrer" className="h-[calc(90vh-116px)] overflow-auto border-2 border-primary p-2 rounded border-opacity-30 group focus:no-underline hidden sm:block">
+        <div rel="noopener noreferrer" className=" border-2 border-primary p-2 rounded border-opacity-30 group focus:no-underline hidden sm:block">
             <img role="presentation" className="object-cover mb-4 w-full rounded h-44 bg-gray-500 dark:bg-gray-500" src={cover_image ? cover_image : placeHolder} />
             <div className="my-6">
                 {
